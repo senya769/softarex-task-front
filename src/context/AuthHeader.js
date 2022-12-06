@@ -3,8 +3,8 @@ export default function authHeader() {
   
     if (accessToken) {
       return { headers:  {
-        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin':'*'
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        withCredentials: false
       }};
     } else {
       return {};

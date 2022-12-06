@@ -1,7 +1,7 @@
 import React from 'react'
 import QuestionService from '../../service/QuestionService'
 import { useState, useEffect } from 'react'
-import { json, Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import UserService from '../../service/UserService'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -9,14 +9,11 @@ import Button from 'react-bootstrap/Button';
 
 const EditQuestionComponent = (props) => {
     const [users, setusers] = useState([])
-    const history = useNavigate()
-
 
     const [question, setQuestion] = useState()
     const [email, setEmail] = useState()
     const [typeAnswer, setTypeAnswer] = useState()
     const [answer, setAnswer] = useState()
-
 
     const [show, setShow] = useState(false);
 
@@ -35,86 +32,13 @@ const EditQuestionComponent = (props) => {
         })
     }, [props])
 
-    function getForm(type) {
-        switch (type) {
-            case "SINGLE_LINE":
-                return (
-                    <div>
-                        <input type="text" class="form-control" />
-                    </div>
-                )
-
-            case "MULTILINE":
-                return (
-                    <div>
-                        <div className='my-1'>
-                            <textarea name="Text1" cols="60" rows="5" ></textarea>
-                        </div>
-                    </div>
-                )
-            case "CHECKBOX":
-                return (
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="s" id="check" value="Milk" />
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Milk
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="s" id="flexCheckDefault" value="Bread" />
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Bread
-                            </label>
-                        </div>
-                    </div>
-                )
-            case "RADIO_BUTTON":
-                return (
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Yes
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                )
-            case "COMBOBOX":
-                return (
-                    <div>
-                        <select class="form-select" multiple aria-label="multiple select example">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                )
-
-            default:
-                return (<div>
-                    <input type="date" class="form-control" />
-                </div>
-                )
-        }
-    }
-
     const updateQuestion = (e) => {
         e.preventDefault()
         const questionUpdate = {
             "typeAnswer": typeAnswer,
             "question": question
         }
-        alert(JSON.stringify(questionUpdate))
-        alert(JSON.stringify(props.question))
         QuestionService.updateQuestion(props.question.id, questionUpdate).then(resp => {
-            alert(resp.data.id + 'id')
             window.location.reload()
         }).catch(err => {
             alert(JSON.stringify(err.response.status))
@@ -175,7 +99,7 @@ const EditQuestionComponent = (props) => {
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect2">Answer*</label>
-                                <input value={answer} type="text" class="form-control" readOnly/>
+                                <input value={answer} type="text" class="form-control" readOnly />
                             </div>
                         </form>
                     </div>

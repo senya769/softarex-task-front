@@ -1,17 +1,18 @@
-import './App.css';
+import "./App.css"
 import {BrowserRouter as Router,Route, Routes} from 'react-router-dom'
 import React,{useEffect}from 'react';
 import jwt_decode from "jwt-decode";
-import FooterComponent from './components/fragments/FooterComponent';
-import HeaderComponent from './components/fragments/HeaderComponent';
+import FooterComponent from './components/fragments/footer/FooterComponent';
+import HeaderComponent from './components/fragments/header/HeaderComponent'
 import ListUsersComponent from './components/users/ListUsersComponent';
 import AddUserComponent from './components/users/AddUserComponent';
 import ListQuetionsComponent from './components/questions/ListQuestionsByUserComponent';
-import Login from './components/auth/Login'
+import Login from './components/login/Login'
 import UserInfoComponent from './components/users/UserInfoComponent';
 import ListAnswersByUserComponent from './components/answers/ListAnswersByUserComponent';
 import AuthService from './service/AuthService';
 import DeleteAuthUserComponent from './components/users/DeleteAuthUserComponent';
+import WebSocketConnect from "./context/WebSocketConnect";
 
 
 
@@ -28,12 +29,14 @@ function App() {
      }
     }
   }, [])
+
   return (
     <div>
       <Router>
      <HeaderComponent/>
      <div className='container'>
         <Routes>
+          <Route path='/testws' element = {<WebSocketConnect/>}></Route>
           <Route path='/' element = {<ListUsersComponent/>}></Route>
           <Route path='/login' element = {<Login/>}></Route>
           <Route path='/users/:id' element = {<UserInfoComponent/>}></Route>

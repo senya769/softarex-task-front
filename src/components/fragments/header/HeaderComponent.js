@@ -1,4 +1,4 @@
-import "../../css/Header.css"
+import "./Header.css"
 import React,{useEffect}from 'react';
 import jwt_decode from "jwt-decode";
 import { Link, useNavigate} from 'react-router-dom';

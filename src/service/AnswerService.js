@@ -11,7 +11,6 @@ class AnswerService{
     }
     getAnswerById(questId){}
     updateAnswers(answerId,answer){
-        alert(JSON.stringify(answer) + ' id-' + answerId)
         return axios.patch(ANSWER_BASE_REST_API(id)+`/${answerId}`,answer,authHeader())
     }
     deleteQuestion(questId){}

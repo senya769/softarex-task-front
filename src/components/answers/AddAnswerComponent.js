@@ -1,27 +1,46 @@
 import React from 'react'
-import { useState,useEffect } from 'react'
+import { useState } from 'react'
 import AnswerService from '../../service/AnswerService'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 const AddAnswerComponent = (props) => {
+    var mas = []
     const [answer, setanswer] = useState(props?.answer?.answer)
-    const values = []
+    
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const saveAnswer = () => {
+    const saveAnswer = (e) => {
+        e.preventDefault()
         const answerDto = {
-            "answer": answer
+            answer: answer
         }
+        if(mas.length !==0){
+            answerDto.answer = mas.toString()
+        }
+        
         AnswerService.updateAnswers(props.answer.id, answerDto).then((resp) => {
             window.location.reload()
         }).catch(err => {
             alert(JSON.stringify(err.response.data))
         })
+    }
+    const test = (e) => {
+        if (e.target.checked) {
+            console.log(e.target.value)
+            mas.push(e.target.value)
+        } else {
+            const index = mas.indexOf(e.target.value);
+
+            if (index !== -1) {
+               var del = mas.splice(index, 1);
+            }
+            console.log("index" +index + ' del ' + del)
+        }
+        console.log(mas)
     }
 
     function getForm(type) {
@@ -47,29 +66,28 @@ const AddAnswerComponent = (props) => {
                 )
             case "CHECKBOX":
                 return (
-                    <div>
+                    <form>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="s" id="check" value="Milk" 
-                            checked
+                            <input class="form-check-input" type="checkbox" onChange={(e) => { test(e) }} name="check" value="Milk"
                             />
                             <label class="form-check-label" for="flexCheckDefault">
                                 Milk
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="s" id="flexCheckDefault" value="Bread" />
+                            <input class="form-check-input" type="checkbox" onChange={(e) => { test(e) }} name="check" value="Bread" />
                             <label class="form-check-label" for="flexCheckChecked">
                                 Bread
                             </label>
                         </div>
-                    </div>
+                    </form>
                 )
             case "RADIO_BUTTON":
                 return (
                     <div>
                         <div class="form-check form-check-inline">
                             <input type="radio" name="radio" value="Yes"
-                                checked={answer == 'Yes' ? true : false}
+                                checked={answer === 'Yes' ? true : false}
                                 defaultChecked={true}
                                 onChange={(e) => setanswer(e.target.value)}
                             />
@@ -79,7 +97,7 @@ const AddAnswerComponent = (props) => {
                         </div>
                         <div class="form-check form-check-inline">
                             <input type="radio" name="radio" value="No"
-                                checked={answer == 'No' ? true : false}
+                                checked={answer === 'No' ? true : false}
                                 onChange={(e) => setanswer(e.target.value)} />
                             <label class="form-check-label" for="flexRadioDefault2">
                                 No
@@ -90,10 +108,11 @@ const AddAnswerComponent = (props) => {
             case "COMBOBOX":
                 return (
                     <div>
-                        <select class="form-select" multiple aria-label="multiple select example">
-                            <option selected = {answer == 'One'?true:false} value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-select" multiple aria-label="multiple select example"
+                            onChange={(e) => { setanswer(e.target.value) }}>
+                            <option selected={answer === 'One'} value="One">One</option>
+                            <option selected={answer === 'Two'} value="Two">Two</option>
+                            <option selected={answer === 'Three'} value="Three">Three</option>
                         </select>
                     </div>
                 )
@@ -117,12 +136,12 @@ const AddAnswerComponent = (props) => {
             </Link>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Answer the Question</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='form-input'>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Email address</label>
+                            <label for="exampleFormControlInput1">Email</label>
                             <input type="email"
                                 class="form-control"
                                 value={props?.answer?.question?.user.email}
@@ -144,7 +163,7 @@ const AddAnswerComponent = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => { saveAnswer() }}>
+                    <Button variant="primary" onClick={(e) => { saveAnswer(e) }}>
                         Answer
                     </Button>
                 </Modal.Footer>

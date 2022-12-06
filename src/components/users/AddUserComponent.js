@@ -52,14 +52,16 @@ const AddUserComponent = () => {
 
         if (id) {
             const pas = {
-                password: password
+                password: passwordConfirm
             }
+            alert(pas.password)
             UserService.checkPassword(pas).then(e => {
-                if (e.data.isMatch == false) {
+                if (e.data.isMatch === false) {
                     setPasswordConfirmError('dont match password')
                 } else {
                     setPasswordConfirmError('')
-                    user.password = passwordConfirm
+                alert(JSON.stringify(user))
+
                     UserService.updateUser(id, user).then((resp) => {
                         history('/users')
                         localStorage.setItem('user', resp.data)
@@ -68,9 +70,9 @@ const AddUserComponent = () => {
                     })
                 }
             }).catch((err) => {
-                alert(err.response.status)
+                alert(JSON.stringify(err.response.data))
             })
-          
+
         } else {
             if (passwordConfirm === password && password.length !== 0) {
                 UserService.createUser(user).then((response) => {
@@ -127,9 +129,9 @@ const AddUserComponent = () => {
 
     const title = () => {
         if (id) {
-            return <h2 className="text-center">Update Employee</h2>
+            return <h2 className="text-center">Update User</h2>
         } else {
-            return <h2 className="text-center">Add Employee</h2>
+            return <h2 className="text-center">Registraton User</h2>
         }
     }
 
@@ -137,7 +139,8 @@ const AddUserComponent = () => {
         if (id) {
             return (
                 <div className="form-group">
-                    <label className="form-label my-1"> New password :</label>
+                    <label className="form-label my-1"> Confirm password :</label>
+                    {(passwordConfirmError!=='') &&<div>{passwordConfirmError}</div>}
                     <input
                         type="password"
                         placeholder="Enter password"
@@ -148,7 +151,6 @@ const AddUserComponent = () => {
                     >
                     </input>
                 </div>
-                // <h1>Update</h1>
             )
         } else {
             return (
@@ -226,7 +228,7 @@ const AddUserComponent = () => {
                                     <label className="form-label"> Number </label>
                                     <input
                                         type="text"
-                                        placeholder="Enter email Id"
+                                        placeholder="Enter number"
                                         name="number"
                                         className="form-control"
                                         value={number}
@@ -252,9 +254,13 @@ const AddUserComponent = () => {
                                     </input>
                                 </div>
                                 {createOrUpdatePassword()}
-
                                 <button disabled={!formValid} className="btn btn-success mt-2" onClick={(e) => saveOrCreateUser(e)} >Submit </button>
-                                <Link to="/users" className="btn btn-danger mx-2 mt-2"> Cancel </Link>
+                                <br></br>
+
+                                {(!id)&& <div> <small>Already have account? </small>
+                                <Link to="/login" className="mx-2 mt-2">Sign in </Link>
+                                </div>
+                                }
                             </form>
 
                         </div>

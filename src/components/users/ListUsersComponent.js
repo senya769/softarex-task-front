@@ -33,7 +33,7 @@ async function deleteUserById(id) {
   return (
     <div className="container">
         <h2 className='text-center'>ListUsersComponent</h2>
-        <Link to = '/add-user' className='btn btn-primary'>Test</Link>
+        <Link to = '/add-user' className='btn btn-primary'>Add User</Link>
         <table className='table table-border table-striped'>
             <thead>
                 <th>User ID</th>

@@ -60,7 +60,7 @@ const AddUserComponent = () => {
                     setPasswordConfirmError('dont match password')
                 } else {
                     setPasswordConfirmError('')
-                alert(JSON.stringify(user))
+                    alert(JSON.stringify(user))
 
                     UserService.updateUser(id, user).then((resp) => {
                         history('/users')
@@ -90,7 +90,6 @@ const AddUserComponent = () => {
             }
         }
     }
-
 
     const blurHandler = (e) => {
         switch (e.target.name) {
@@ -140,7 +139,7 @@ const AddUserComponent = () => {
             return (
                 <div className="form-group">
                     <label className="form-label my-1"> Confirm password :</label>
-                    {(passwordConfirmError!=='') &&<div>{passwordConfirmError}</div>}
+                    {(passwordConfirmError !== '') && <div>{passwordConfirmError}</div>}
                     <input
                         type="password"
                         placeholder="Enter password"
@@ -257,12 +256,11 @@ const AddUserComponent = () => {
                                 <button disabled={!formValid} className="btn btn-success mt-2" onClick={(e) => saveOrCreateUser(e)} >Submit </button>
                                 <br></br>
 
-                                {(!id)&& <div> <small>Already have account? </small>
-                                <Link to="/login" className="mx-2 mt-2">Sign in </Link>
+                                {(!id) && <div> <small>Already have account? </small>
+                                    <Link to="/login" className="mx-2 mt-2">Sign in </Link>
                                 </div>
                                 }
                             </form>
-
                         </div>
                     </div>
                 </div>

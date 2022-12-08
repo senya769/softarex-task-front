@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import "./Login.css"
-
-
 import AuthService from '../../service/AuthService'
 
 const Login = () => {
@@ -11,7 +9,6 @@ const Login = () => {
     const [password, setPassword] = useState()
     const [error, setError] = useState(false)
     const history = useNavigate()
-
 
     const login = (e) => {
         e.preventDefault();
@@ -23,6 +20,7 @@ const Login = () => {
             setError(true)
         })
     }
+    
     return (
         <div>
             <div className="container">

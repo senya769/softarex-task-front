@@ -15,7 +15,7 @@ const DeleteAuthUserComponent = () => {
         }
         UserService.checkPassword(passwordDto).then(resp => {
             if (resp.data.isMatch) {
-                UserService.deleteUser(id).then(()=>{})
+                UserService.deleteUser(id).then(() => { })
                 localStorage.clear()
                 history('/login')
             } else {
@@ -40,8 +40,7 @@ const DeleteAuthUserComponent = () => {
                                 type="password"
                                 placeholder="Enter password"
                                 className=" form-control"
-                                onChange={(e) => setPasswordConfirm(e.target.value)}
-                            >
+                                onChange={(e) => setPasswordConfirm(e.target.value)}>
                             </input>
                             <small id="pas" class="form-text text-muted">
                                 {passwordConfirmError}

@@ -5,14 +5,14 @@ const ANSWER_BASE_REST_API = (id) => `http://localhost:9090/web-test/users/${id}
 const id = localStorage.getItem('id')
 
 
-class AnswerService{
-    getAllAnswersByUserId(userId){
-        return axios.get(ANSWER_BASE_REST_API(userId),authHeader())
+class AnswerService {
+    getAllAnswersByUserId(userId) {
+        return axios.get(ANSWER_BASE_REST_API(userId), authHeader())
     }
-    getAnswerById(questId){}
-    updateAnswers(answerId,answer){
-        return axios.patch(ANSWER_BASE_REST_API(id)+`/${answerId}`,answer,authHeader())
+    getAnswerById(questId) { }
+    updateAnswers(answerId, answer) {
+        return axios.patch(ANSWER_BASE_REST_API(id) + `/${answerId}`, answer, authHeader())
     }
-    deleteQuestion(questId){}
+    deleteQuestion(questId) { }
 }
 export default new AnswerService();

@@ -15,7 +15,7 @@ class AuthService {
     localStorage.clear()
   }
 
-  saveResponseAuth(info){
+  saveResponseAuth(info) {
     localStorage.setItem("id", JSON.stringify(info.id));
     localStorage.setItem("email", JSON.stringify(info.email));
     localStorage.setItem('accessToken', info.accessToken);

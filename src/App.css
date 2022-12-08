@@ -1,12 +1,14 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
-html,body{
+
+html,
+body {
   height: 100%;
 }
-	
-.footer{
+
+.footer {
   flex: auto;
   position: absolute;
   bottom: 0;
@@ -19,6 +21,7 @@ html,body{
   margin-top: auto;
   text-decoration: none;
 }
-.navbar-brand{
-margin-left: 5px;
+
+.navbar-brand {
+  margin-left: 5px;
 }

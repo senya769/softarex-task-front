@@ -1,27 +1,25 @@
-import React from 'react'
-import QuestionService from '../../service/QuestionService'
-import { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 import { Link } from 'react-router-dom'
+import QuestionService from '../../service/QuestionService'
 import UserService from '../../service/UserService'
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-
 
 const EditQuestionComponent = (props) => {
     const [users, setusers] = useState([])
-
     const [question, setQuestion] = useState()
+    const [questionId, setQuestionId] = useState()
     const [email, setEmail] = useState()
     const [typeAnswer, setTypeAnswer] = useState()
     const [answer, setAnswer] = useState()
 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
         setQuestion(props?.question?.question)
+        setQuestionId(props?.question?.id)
         setEmail(props?.question?.answer?.user.email)
         setTypeAnswer(props?.question?.typeAnswer)
         setAnswer(props?.question?.answer.answer)
@@ -32,18 +30,24 @@ const EditQuestionComponent = (props) => {
         })
     }, [props])
 
+    const deleteQuestion = () => {
+        QuestionService.deleteQuestionById(questionId).catch(err => {
+            console.log(err)
+        })
+    }
+
     const updateQuestion = (e) => {
         e.preventDefault()
         const questionUpdate = {
             "typeAnswer": typeAnswer,
             "question": question
         }
-        QuestionService.updateQuestion(props.question.id, questionUpdate).then(resp => {
-            window.location.reload()
-        }).catch(err => {
+        QuestionService.updateQuestion(props.question.id, questionUpdate).catch(err => {
             alert(JSON.stringify(err.response.status))
         })
+        handleClose()
     }
+
     return (
         <div>
             <Link variant="primary" onClick={handleShow} className="mx-2" >
@@ -52,7 +56,7 @@ const EditQuestionComponent = (props) => {
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg>
             </Link>
-            <Link>
+            <Link onClick={deleteQuestion}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -72,6 +76,7 @@ const EditQuestionComponent = (props) => {
                                     onChange={(e) => setEmail(e.target.value)}>
                                     {
                                         users.map(user =>
+                                            (JSON.parse(localStorage.getItem('email')) !== user.email) &&
                                             <option>{user.email}</option>
                                         )
                                     }

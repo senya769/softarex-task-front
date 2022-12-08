@@ -1,25 +1,30 @@
-.header{
-text-decoration: none;
-font-size: 17px;
-margin-top: 6px;
-color: rgb(28, 4, 4);
+.header {
+    text-decoration: none;
+    font-size: 17px;
+    margin-top: 6px;
+    color: rgb(28, 4, 4);
 }
-.header:hover{
+
+.header:hover {
     color: rgb(176, 134, 134);
 }
-.dropdown-basic{
+
+.dropdown-basic {
     border: 1px black solid;
 }
-header{
+
+header {
     background-color: rgb(243, 241, 241);
-}  
-.logo{
+}
+
+.logo {
     margin-left: 10px;
     color: rgb(28, 4, 4);
     text-decoration: none;
     font-size: 20px;
-    font-style:  unset;
+    font-style: unset;
 }
-.logo:hover{
+
+.logo:hover {
     color: #000;
 }

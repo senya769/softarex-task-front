@@ -1,14 +1,13 @@
-import React from 'react'
-import { useState } from 'react'
-import AnswerService from '../../service/AnswerService'
-import Modal from 'react-bootstrap/Modal';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { Link } from 'react-router-dom';
+import AnswerService from '../../service/AnswerService';
 
 const AddAnswerComponent = (props) => {
     var mas = []
     const [answer, setanswer] = useState(props?.answer?.answer)
-    
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -18,16 +17,16 @@ const AddAnswerComponent = (props) => {
         const answerDto = {
             answer: answer
         }
-        if(mas.length !==0){
+        if (mas.length !== 0) {
             answerDto.answer = mas.toString()
         }
-        
-        AnswerService.updateAnswers(props.answer.id, answerDto).then((resp) => {
-            window.location.reload()
-        }).catch(err => {
+
+        AnswerService.updateAnswers(props.answer.id, answerDto).catch(err => {
             alert(JSON.stringify(err.response.data))
         })
+        handleClose()
     }
+
     const test = (e) => {
         if (e.target.checked) {
             console.log(e.target.value)
@@ -36,9 +35,9 @@ const AddAnswerComponent = (props) => {
             const index = mas.indexOf(e.target.value);
 
             if (index !== -1) {
-               var del = mas.splice(index, 1);
+                var del = mas.splice(index, 1);
             }
-            console.log("index" +index + ' del ' + del)
+            console.log("index" + index + ' del ' + del)
         }
         console.log(mas)
     }
@@ -53,7 +52,6 @@ const AddAnswerComponent = (props) => {
                             onChange={(e) => setanswer(e.target.value)} />
                     </div>
                 )
-
             case "MULTILINE":
                 return (
                     <div>
@@ -116,7 +114,6 @@ const AddAnswerComponent = (props) => {
                         </select>
                     </div>
                 )
-
             default:
                 return (<div>
                     <input type="date" class="form-control"
@@ -126,6 +123,7 @@ const AddAnswerComponent = (props) => {
                 )
         }
     }
+    
     return (
         <div>
             <Link onClick={handleShow} className="mx-2">

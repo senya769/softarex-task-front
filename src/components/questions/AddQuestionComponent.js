@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import QuestionService from '../../service/QuestionService'
-import UserService from '../../service/UserService'
-import {Link } from 'react-router-dom'
-import Modal from 'react-bootstrap/Modal';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Link } from 'react-router-dom';
+import QuestionService from '../../service/QuestionService';
+import UserService from '../../service/UserService';
 
 const AddQuestionComponent = () => {
     const [users, setusers] = useState([])
-
     const [question, setQuestion] = useState()
     const [email, setEmail] = useState()
     const [typeAnswer, setTypeAnswer] = useState("DATE")
-    
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -46,13 +45,13 @@ const AddQuestionComponent = () => {
                 return (
                     <div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox"  id="check" value="Milk" />
+                            <input class="form-check-input" type="checkbox" id="check" value="Milk" />
                             <label class="form-check-label" for="flexCheckDefault">
                                 Milk
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox"  id="flexCheckDefault" value="Bread" />
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="Bread" />
                             <label class="form-check-label" for="flexCheckChecked">
                                 Bread
                             </label>
@@ -79,7 +78,7 @@ const AddQuestionComponent = () => {
             case "COMBOBOX":
                 return (
                     <div>
-                        <select class="form-select" multiple aria-label="multiple select example">
+                        <select class="form-select" multiple aria-label="multiple select example" readOnly>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -88,7 +87,8 @@ const AddQuestionComponent = () => {
                 )
 
             default:
-                return (<div>
+                return (
+                <div >
                     <input type="date" class="form-control" />
                 </div>
                 )
@@ -101,13 +101,11 @@ const AddQuestionComponent = () => {
             "typeAnswer": typeAnswer,
             "question": question
         }
-        QuestionService.createQuestion(email, questionSave).then(resp => {
-            window.location.reload()
-        }).catch(err => {
+        QuestionService.createQuestion(email, questionSave).catch(err => {
             alert(JSON.stringify(err.response.data))
         })
+        handleClose()
     }
-
 
     return (
         <div>
@@ -130,6 +128,7 @@ const AddQuestionComponent = () => {
                                     onChange={(e) => setEmail(e.target.value)}>
                                     {
                                         users.map(user =>
+                                            (JSON.parse(localStorage.getItem('email')) !== user.email) &&
                                             <option>{user.email}</option>
                                         )
                                     }

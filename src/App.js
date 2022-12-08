@@ -32,7 +32,7 @@ function App() {
      <HeaderComponent/>
      <div className='container'>
         <Routes>
-          <Route path='/' element = {<ListUsersComponent/>}></Route>
+          <Route path='/' element = {<ListQuetionsComponent/>}></Route>
           <Route path='/login' element = {<Login/>}></Route>
           <Route path='/users' element = {<ListUsersComponent/>}></Route>
           <Route path='/add-user' element = {<AddUserComponent/>}></Route>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import AnswerService from '../../service/AnswerService'
 import AddAnswerComponent from './AddAnswerComponent';
-import "./Answer.css"
+import "./answer.css"
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import authHeader from '../../context/AuthHeader';

@@ -4,6 +4,11 @@ import { useParams, useNavigate } from 'react-router-dom'
 import AnswerService from '../../service/AnswerService'
 import AddAnswerComponent from './AddAnswerComponent';
 import "./Answer.css"
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import authHeader from '../../context/AuthHeader';
+
+const SOCKET_URL = 'http://localhost:9090/web-test/ws';
 
 const ListAnswersByUserComponent = (par) => {
     const [answers, setAnswers] = useState([])
@@ -20,39 +25,54 @@ const ListAnswersByUserComponent = (par) => {
                 history('/login')
             )
         })
-    }, [id,history])
+        const sock = new SockJS(SOCKET_URL)
+        const stomp = Stomp.over(sock)
+        stomp.connect(authHeader(), function (frame) {
+            console.log('connect ')
+            stomp.subscribe('/topic/answers', function (msg) {
+                setAnswers(JSON.parse(msg.body))
+                console.log(msg.body.at(5))
+            })
+        })
+    }, [id, history])
 
     return (
         <div className="container">
             <h2 className='text-center'>List Answers</h2>
             <br></br>
-            <table className='table table-hover table-light'>
-                <thead className='border table-dark bg-secondary'>
-                    <th className='px-2 bold'>ID</th>
-                    <th>From User</th>
-                    <th>Question</th>
-                    <th>Question type</th>
-                    <th>Answer</th>
-                    <th>Action</th>
-                </thead>
-                <tbody>
-                    {
-                        answers.map(
-                            answer =>
-                                <tr key={answer.id}>
-                                    <td>{answer.id}</td>
-                                    <td>{answer.question.user.email}</td>
-                                    <td>{answer.question.question}</td>
-                                    <td>{answer.question.typeAnswer}</td>
-                                    <td>{answer.answer}</td>
-                                    <td>
-                                        <AddAnswerComponent answer={answer} />
-                                    </td>
-                                </tr>
-                        )
-                    }
-                </tbody>
-            </table>
+            {(answers.length === 0) &&
+                <div className='text-center'>
+                    <h3>There are no questions for you</h3>
+                </div>
+                ||
+                <table className='table table-hover table-light'>
+                    <thead className='border table-dark bg-secondary'>
+                        <th className='px-2 bold'>ID</th>
+                        <th>From User</th>
+                        <th>Question</th>
+                        <th>Question type</th>
+                        <th>Answer</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        {
+                            answers.map(
+                                answer =>
+                                    <tr key={answer?.id}>
+                                        <td>{answer?.id}</td>
+                                        <td>{answer?.question?.user?.email}</td>
+                                        <td>{answer?.question?.question}</td>
+                                        <td>{answer?.question?.typeAnswer}</td>
+                                        <td>{answer?.answer}</td>
+                                        <td>
+                                            <AddAnswerComponent answer={answer} />
+                                        </td>
+                                    </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
 
     )

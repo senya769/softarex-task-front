@@ -20,24 +20,20 @@ const AddAnswerComponent = (props) => {
         if (mas.length !== 0) {
             answerDto.answer = mas.toString()
         }
-
         AnswerService.updateAnswers(props.answer.id, answerDto).catch(err => {
             alert(JSON.stringify(err.response.data))
         })
         handleClose()
     }
 
-    const test = (e) => {
+    const addCheckedValueInArray = (e) => {
         if (e.target.checked) {
-            console.log(e.target.value)
             mas.push(e.target.value)
         } else {
             const index = mas.indexOf(e.target.value);
-
             if (index !== -1) {
-                var del = mas.splice(index, 1);
+                mas.splice(index, 1);
             }
-            console.log("index" + index + ' del ' + del)
         }
         console.log(mas)
     }
@@ -66,14 +62,14 @@ const AddAnswerComponent = (props) => {
                 return (
                     <form>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" onChange={(e) => { test(e) }} name="check" value="Milk"
+                            <input class="form-check-input" type="checkbox" onChange={(e) => { addCheckedValueInArray(e) }} name="check" value="Milk"
                             />
                             <label class="form-check-label" for="flexCheckDefault">
                                 Milk
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" onChange={(e) => { test(e) }} name="check" value="Bread" />
+                            <input class="form-check-input" type="checkbox" onChange={(e) => { addCheckedValueInArray(e) }} name="check" value="Bread" />
                             <label class="form-check-label" for="flexCheckChecked">
                                 Bread
                             </label>
@@ -123,7 +119,7 @@ const AddAnswerComponent = (props) => {
                 )
         }
     }
-    
+
     return (
         <div>
             <Link onClick={handleShow} className="mx-2">

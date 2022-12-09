@@ -10,7 +10,7 @@ import authHeader from '../../context/AuthHeader';
 
 const SOCKET_URL = 'http://localhost:9090/web-test/ws';
 
-const ListAnswersByUserComponent = (par) => {
+const ListAnswersByUserComponent = () => {
     const [answers, setAnswers] = useState([])
     const { id } = useParams()
     const history = useNavigate()
@@ -31,7 +31,6 @@ const ListAnswersByUserComponent = (par) => {
             console.log('connect ')
             stomp.subscribe('/topic/answers', function (msg) {
                 setAnswers(JSON.parse(msg.body))
-                console.log(msg.body.at(5))
             })
         })
     }, [id, history])

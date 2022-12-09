@@ -126,6 +126,7 @@ const AddQuestionComponent = () => {
                                 <label for="exampleFormControlSelect1">Email*</label>
                                 <select class="form-control" id="exampleFormControlSelect1"
                                     onChange={(e) => setEmail(e.target.value)}>
+                                    <option value="" disabled selected>Select Email</option>
                                     {
                                         users.map(user =>
                                             (JSON.parse(localStorage.getItem('email')) !== user.email) &&
@@ -136,7 +137,8 @@ const AddQuestionComponent = () => {
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Question*</label>
-                                <input type="text" class="form-control" onChange={(e) => setQuestion(e.target.value)} />
+                                <input type="text" class="form-control" placeholder='Enter your question'
+                                    onChange={(e) => setQuestion(e.target.value)} />
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Answer Type*</label>

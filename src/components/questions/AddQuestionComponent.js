@@ -8,7 +8,7 @@ import UserService from '../../service/UserService';
 const AddQuestionComponent = () => {
     const [users, setusers] = useState([])
     const [question, setQuestion] = useState()
-    const [email, setEmail] = useState()
+    const [email, setEmail] = useState('')
     const [typeAnswer, setTypeAnswer] = useState("DATE")
 
     const [show, setShow] = useState(false);
@@ -18,7 +18,7 @@ const AddQuestionComponent = () => {
     useEffect(() => {
         UserService.getAllUsers().then(resp => {
             setusers(resp.data)
-            setEmail(resp.data[0].email)
+            // setEmail(resp.data[0].email)
         }).catch(err => {
             console.log(err)
         })
@@ -88,9 +88,9 @@ const AddQuestionComponent = () => {
 
             default:
                 return (
-                <div >
-                    <input type="date" class="form-control" />
-                </div>
+                    <div >
+                        <input type="date" class="form-control" />
+                    </div>
                 )
         }
     }

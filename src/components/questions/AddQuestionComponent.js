@@ -29,7 +29,7 @@ const AddQuestionComponent = () => {
             case "SINGLE_LINE":
                 return (
                     <div>
-                        <input type="text" class="form-control" />
+                        <input type="text" class="form-control" readOnly />
                     </div>
                 )
 
@@ -37,7 +37,7 @@ const AddQuestionComponent = () => {
                 return (
                     <div>
                         <div className='my-1'>
-                            <textarea name="Text1" cols="60" rows="5"></textarea>
+                            <textarea name="Text1" cols="60" rows="5" readOnly ></textarea>
                         </div>
                     </div>
                 )
@@ -45,13 +45,13 @@ const AddQuestionComponent = () => {
                 return (
                     <div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check" value="Milk" />
+                            <input class="form-check-input" type="checkbox" id="check" value="Milk" readOnly />
                             <label class="form-check-label" for="flexCheckDefault">
                                 Milk
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="Bread" />
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="Bread" readOnly />
                             <label class="form-check-label" for="flexCheckChecked">
                                 Bread
                             </label>
@@ -62,13 +62,13 @@ const AddQuestionComponent = () => {
                 return (
                     <div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" readOnly />
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Yes
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked readOnly />
                             <label class="form-check-label" for="flexRadioDefault2">
                                 No
                             </label>
@@ -89,7 +89,7 @@ const AddQuestionComponent = () => {
             default:
                 return (
                     <div >
-                        <input type="date" class="form-control" />
+                        <input type="date" class="form-control" readOnly />
                     </div>
                 )
         }

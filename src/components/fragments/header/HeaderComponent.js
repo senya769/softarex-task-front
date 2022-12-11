@@ -1,8 +1,8 @@
-import "./Header.css"
-import React, { useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Dropdown } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import "./Header.css";
 
 
 const HeaderComponent = () => {
@@ -19,9 +19,7 @@ const HeaderComponent = () => {
         window.location.reload()
       }
     }
-
-  }, [])
-
+  }, [accessToken])
 
   const logout = () => {
     localStorage.clear()

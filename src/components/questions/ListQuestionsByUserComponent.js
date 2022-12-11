@@ -48,6 +48,7 @@ const ListQuetionsComponent = () => {
                         <th scope="col">ID</th>
                         <th scope="col">For User</th>
                         <th scope="col">Question</th>
+                        <th scope="col">Answer type</th>
                         <th scope="col">Answer</th>
                         <th scope="col">Action</th>
                     </thead>
@@ -59,6 +60,7 @@ const ListQuetionsComponent = () => {
                                         <td>{question.id}</td>
                                         <td>{question.answer.user.email}</td>
                                         <td>{question.question}</td>
+                                        <td>{question.typeAnswer}</td>
                                         <td>{question.answer.answer}</td>
                                         <td>
                                             <EditQuestionComponent question={question} />

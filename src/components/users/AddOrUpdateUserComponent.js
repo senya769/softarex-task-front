@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react"
-import React from 'react'
-import UserService from "../../service/UserService"
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import UserService from "../../service/UserService";
 
 const AddUserComponent = () => {
 
@@ -9,7 +8,7 @@ const AddUserComponent = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [number, setNumber] = useState('')
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState()
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const { id } = useParams();
     const history = useNavigate();
@@ -54,33 +53,29 @@ const AddUserComponent = () => {
             const pas = {
                 password: passwordConfirm
             }
-            alert(pas.password)
             UserService.checkPassword(pas).then(e => {
                 if (e.data.isMatch === false) {
                     setPasswordConfirmError('dont match password')
                 } else {
                     setPasswordConfirmError('')
-                    alert(JSON.stringify(user))
-
                     UserService.updateUser(id, user).then((resp) => {
                         history('/users')
                         localStorage.setItem('user', resp.data)
                     }).catch(error => {
-                        console.log(error)
+                        setPasswordError(error.response.data.details.password)
+                        setEmailError(error.response.data.message)
+                        console.log(error.response.data)
                     })
                 }
             }).catch((err) => {
-                alert(JSON.stringify(err.response.data))
+                setPasswordConfirmError(err.response.data.details.password)
             })
 
         } else {
             if (passwordConfirm === password && password.length !== 0) {
                 UserService.createUser(user).then((response) => {
-
                     console.log(response.data)
-
                     history('/users');
-
                 }).catch(error => {
                     console.log(error)
                 })
@@ -96,7 +91,6 @@ const AddUserComponent = () => {
             case 'email':
                 setEmailDirty(true)
                 break;
-
             default:
                 setPasswordDirty(true)
                 break;
@@ -118,7 +112,6 @@ const AddUserComponent = () => {
 
     const passwordHandler = (e) => {
         setPassword(e.target.value)
-
         if (!e.target.value) {
             setPasswordError('Password cannot be empty')
         } else {
@@ -128,9 +121,9 @@ const AddUserComponent = () => {
 
     const title = () => {
         if (id) {
-            return <h2 className="text-center">Update User</h2>
+            return <h2 className="text-center mt-2">Update User</h2>
         } else {
-            return <h2 className="text-center">Registraton User</h2>
+            return <h2 className="text-center mt-2">Registraton User</h2>
         }
     }
 
@@ -139,7 +132,8 @@ const AddUserComponent = () => {
             return (
                 <div className="form-group">
                     <label className="form-label my-1"> Confirm password :</label>
-                    {(passwordConfirmError !== '') && <div>{passwordConfirmError}</div>}
+                    {(passwordConfirmError !== '') &&
+                        <span className='text-danger mx-2'>{passwordConfirmError}</span>}
                     <input
                         type="password"
                         placeholder="Enter password"
@@ -174,11 +168,11 @@ const AddUserComponent = () => {
             <br />
             <div className="container">
                 <div className="row row justify-content-md-center ">
-                    <div className="card col-5">
+                    <div className="card bg-light col-5">
                         {
                             title()
                         }
-                        <div className="card-body">
+                        <div className="card-body ">
                             <form>
                                 <div className="form-group">
                                     <label className="form-label"> First Name </label>
@@ -210,7 +204,7 @@ const AddUserComponent = () => {
                                     <label className="form-label"> Email </label>
                                     {
                                         (emailDirty && emailError) &&
-                                        <div style={{ color: 'red' }}>{emailError}</div>
+                                        <span className='text-danger mx-2'>{emailError}</span>
                                     }
                                     <input
                                         onBlur={e => blurHandler(e)}
@@ -236,10 +230,13 @@ const AddUserComponent = () => {
                                     </input>
                                 </div>
                                 <div className="form-group my-1">
-                                    <label className="form-label"> Password </label>
+                                    <label className="form-label">
+                                        {(id) && "New "}
+                                        Password
+                                    </label>
                                     {
                                         (passwordDirty && passwordError) &&
-                                        <div style={{ color: 'red' }}>{passwordError}</div>
+                                        <span className='text-danger mx-2'>{passwordError}</span>
                                     }
                                     <input
                                         onBlur={e => blurHandler(e)}
@@ -253,13 +250,20 @@ const AddUserComponent = () => {
                                     </input>
                                 </div>
                                 {createOrUpdatePassword()}
-                                <button disabled={!formValid} className="btn btn-success mt-2" onClick={(e) => saveOrCreateUser(e)} >Submit </button>
-                                <br></br>
 
-                                {(!id) && <div> <small>Already have account? </small>
-                                    <Link to="/login" className="mx-2 mt-2">Sign in </Link>
+                                <div className="row">
+                                    <div class="col justify-content-center mt-3">
+                                        <button disabled={!formValid} className="btn btn-success" onClick={(e) => saveOrCreateUser(e)} >Submit </button>
+                                    </div>
+                                    <div class="col mt-4">
+
+                                        {(!id) && <span> <small>Already have account? </small>
+                                            <Link to="/login" className="mx-2 text-decoration-none">Sign in </Link>
+                                        </span>
+                                        }
+                                    </div>
+
                                 </div>
-                                }
                             </form>
                         </div>
                     </div>

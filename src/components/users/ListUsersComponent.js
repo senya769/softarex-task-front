@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import UserService from '../../service/UserService'
 
@@ -21,7 +21,7 @@ const ListUsersComponent = () => {
   }
   async function deleteUserById(id) {
     const authId = localStorage.getItem("id");
-    if (id == authId) {
+    if (id === authId) {
       alert("its your account!")
     } else {
       UserService.deleteUser(id)

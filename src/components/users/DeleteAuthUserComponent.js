@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import UserService from '../../service/UserService'
 import { useNavigate, useParams } from 'react-router-dom'
+import UserService from '../../service/UserService'
 
 const DeleteAuthUserComponent = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -32,21 +32,23 @@ const DeleteAuthUserComponent = () => {
                 <br></br>
                 <br></br>
                 <div className="row row justify-content-md-center ">
-                    <div className=" col-5 text-center">
-                        <form >
-                            <label className="form-label my-1"> Confirm password :</label>
-                            <input
-                                for="pas"
-                                type="password"
-                                placeholder="Enter password"
-                                className=" form-control"
-                                onChange={(e) => setPasswordConfirm(e.target.value)}>
-                            </input>
-                            <small id="pas" class="form-text text-muted">
-                                {passwordConfirmError}
-                            </small><br></br>
-                            <button type='submit' className='btn btn-danger' onClick={(e) => deleteUser(e)}>Delete User</button>
-                        </form>
+                    <div className="col-5 text-center">
+                        <div className='card bg-light'>
+                            <form className='offset-2 col-8'>
+                                <h5 className="form-label mt-5"> Confirm password :</h5>
+                                <input
+                                    for="pas"
+                                    type="password"
+                                    placeholder="Enter password"
+                                    className="form-control mt-4"
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}>
+                                </input>
+                                <small id="pas" class="form-text text-muted">
+                                    {passwordConfirmError}
+                                </small><br></br>
+                                <button type='submit' className='btn btn-danger mb-4 mt-3' onClick={(e) => deleteUser(e)}>Delete User</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -25,6 +25,9 @@ class UserService {
     checkPassword(password) {
         return axios.post(USER_BASE_REST_API + '/check-password', password, authHeader())
     }
+    resetPassword(email) {
+        return axios.post(USER_BASE_REST_API + `/reset-password?email=${email}`)
+    }
     login(email, password) {
         return axios.post(BASE_REST_API + '/login', { email, password })
     }

@@ -1,12 +1,12 @@
-import '../../App.css';
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import AnswerService from '../../service/AnswerService'
-import AddAnswerComponent from './AddAnswerComponent';
-import "./answer.css"
-import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import SockJS from 'sockjs-client';
+import '../../App.css';
 import authHeader from '../../context/AuthHeader';
+import AnswerService from '../../service/AnswerService';
+import AddAnswerComponent from './AddAnswerComponent';
+import "./answer.css";
 
 const SOCKET_URL = 'http://localhost:9090/web-test/ws';
 
@@ -49,7 +49,6 @@ const ListAnswersByUserComponent = () => {
                         <th className='px-2 bold'>ID</th>
                         <th>From User</th>
                         <th>Question</th>
-                        <th>Question type</th>
                         <th>Answer</th>
                         <th>Action</th>
                     </thead>
@@ -61,7 +60,6 @@ const ListAnswersByUserComponent = () => {
                                         <td>{answer?.id}</td>
                                         <td>{answer?.question?.user?.email}</td>
                                         <td>{answer?.question?.question}</td>
-                                        <td>{answer?.question?.typeAnswer}</td>
                                         <td>{answer?.answer}</td>
                                         <td>
                                             <AddAnswerComponent answer={answer} />

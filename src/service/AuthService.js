@@ -4,10 +4,11 @@ const API_URL = "http://localhost:9090/web-test";
 
 class AuthService {
 
-  async login(email, password) {
+  login(email, password, rememberMeNumber) {
     return axios.post(API_URL + "/login", {
       email,
-      password
+      password,
+      rememberMeNumber
     })
   }
 

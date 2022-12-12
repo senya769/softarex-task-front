@@ -32,14 +32,14 @@ const ListAnswersByUserComponent = () => {
         }
     }
 
-   async function loadAnswers(pageR, sizeR) {
+    async function loadAnswers(pageR, sizeR) {
         AnswerService.getAllAnswersByUserId(id, pageR, sizeR).then((response) => {
             if (response.data.length) {
                 setAnswers(response.data)
             } else {
                 setMaxSize(pageR)
-                if(pageR > 1){
-                setPage(pageR - 1)
+                if (pageR > 1) {
+                    setPage(pageR - 1)
                 }
             }
             console.log(response.data)

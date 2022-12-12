@@ -51,7 +51,7 @@ const AddQuestionComponent = () => {
                 if (emailErrorMessage) {
                     setEmailError(emailErrorMessage.slice(19))
                 }
-                if(err.response.status == 500){
+                if (err.response.status == 500) {
                     window.location.reload()
                 }
             })

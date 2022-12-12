@@ -55,7 +55,7 @@ const AddUserComponent = () => {
             }
             UserService.checkPassword(pas).then(e => {
                 if (e.data.isMatch === false) {
-                    setPasswordConfirmError('dont match password')
+                    setPasswordConfirmError('don`t match password')
                 } else {
                     setPasswordConfirmError('')
                     UserService.updateUser(id, user).then((resp) => {
@@ -63,7 +63,7 @@ const AddUserComponent = () => {
                         localStorage.setItem('user', resp.data)
                     }).catch(error => {
                         setPasswordError(error.response.data.details.password)
-                        setEmailError(error.response.data.message)
+                        // setEmailError(error.response.data.message)
                         console.log(error.response.data)
                     })
                 }
@@ -78,10 +78,13 @@ const AddUserComponent = () => {
                     history('/users');
                 }).catch(error => {
                     console.log(error)
+                    setEmailError(error.response.data.message)
+                    setEmailDirty(true)
+                    setPasswordError(error.response.data.details.password)
                 })
             }
             else {
-                alert("Your password's not match")
+                setPasswordConfirmError("password's not match")
             }
         }
     }
@@ -131,7 +134,7 @@ const AddUserComponent = () => {
         if (id) {
             return (
                 <div className="form-group">
-                    <label className="form-label my-1"> Confirm password :</label>
+                    <label className="form-label my-1"> Confirm password*</label>
                     {(passwordConfirmError !== '') &&
                         <span className='text-danger mx-2'>{passwordConfirmError}</span>}
                     <input
@@ -148,9 +151,10 @@ const AddUserComponent = () => {
         } else {
             return (
                 <div className="form-group">
-                    <label className="form-label my-1"> Confirm password</label>
+                    <label className="form-label my-1"> Confirm password*</label>
+                    {(passwordConfirmError !== '') &&
+                        <span className='text-danger mx-2'>{passwordConfirmError}</span>}
                     <input
-
                         type="password"
                         placeholder="Enter password again"
                         name="password-confirm"
@@ -201,7 +205,7 @@ const AddUserComponent = () => {
                                 </div>
 
                                 <div className="form-group my-1">
-                                    <label className="form-label"> Email </label>
+                                    <label className="form-label"> Email* </label>
                                     {
                                         (emailDirty && emailError) &&
                                         <span className='text-danger mx-2'>{emailError}</span>
@@ -232,7 +236,7 @@ const AddUserComponent = () => {
                                 <div className="form-group my-1">
                                     <label className="form-label">
                                         {(id) && "New "}
-                                        Password
+                                        Password*
                                     </label>
                                     {
                                         (passwordDirty && passwordError) &&
@@ -262,7 +266,6 @@ const AddUserComponent = () => {
                                         </span>
                                         }
                                     </div>
-
                                 </div>
                             </form>
                         </div>

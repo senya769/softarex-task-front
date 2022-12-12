@@ -1,3 +1,5 @@
+import { faClipboardQuestion } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -56,8 +58,9 @@ const AddQuestionComponent = () => {
     return (
         <div>
             <div className='navbar navbar-dark justify-content-end '>
-                <Link className='btn btn-primary my-1 ' onClick={handleShow}>
+                <Link className='btn btn-primary my-1' onClick={handleShow}>
                     Add Question
+                    <FontAwesomeIcon icon={faClipboardQuestion} className='mx-2' />
                 </Link>
             </div>
             <Modal show={show} onHide={handleClose}>

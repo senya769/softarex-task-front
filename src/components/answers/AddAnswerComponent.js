@@ -23,7 +23,7 @@ const AddAnswerComponent = (props) => {
             answerDto.answer = mas.toString()
         }
         AnswerService.updateAnswers(props.answer.id, answerDto).catch(err => {
-            alert(JSON.stringify(err.response.data))
+            console.log(JSON.stringify(err.response.data))
         })
         handleClose()
     }

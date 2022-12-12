@@ -22,7 +22,7 @@ const DeleteAuthUserComponent = () => {
                 setPasswordConfirmError('Password is not match... Try again!')
             }
         }).catch(err => {
-            alert(JSON.stringify(err.response.data) + ' catch')
+            setPasswordConfirmError(err.response.data.details.password)
         })
     }
 

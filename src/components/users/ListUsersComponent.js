@@ -22,7 +22,7 @@ const ListUsersComponent = () => {
   async function deleteUserById(id) {
     const authId = localStorage.getItem("id");
     if (id === authId) {
-      alert("its your account!")
+      console.log("its your account!")
     } else {
       UserService.deleteUser(id)
       loadUsers()

@@ -10,6 +10,7 @@ import UserService from '../../service/UserService'
 const EditQuestionComponent = (props) => {
     const [users, setusers] = useState([])
     const [question, setQuestion] = useState()
+    const [questionError, setQuestionError] = useState()
     const [questionId, setQuestionId] = useState()
     const [email, setEmail] = useState()
     const [typeAnswer, setTypeAnswer] = useState()
@@ -44,10 +45,12 @@ const EditQuestionComponent = (props) => {
             "typeAnswer": typeAnswer,
             "question": question
         }
-        QuestionService.updateQuestion(props.question.id, questionUpdate).catch(err => {
-            alert(JSON.stringify(err.response.status))
+        QuestionService.updateQuestion(props.question.id, questionUpdate).then(function () {
+            handleClose()
+        }).catch(err => {
+            setQuestionError(err.response.data.details.question)
+            console.log(err.response.data.message)
         })
-        handleClose()
     }
 
     return (
@@ -80,6 +83,8 @@ const EditQuestionComponent = (props) => {
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Question*</label>
+                                {(questionError) &&
+                                    <span className='text-danger mx-2'>{questionError}</span>}
                                 <input type="text" class="form-control"
                                     onChange={(e) => setQuestion(e.target.value)}
                                     value={question}

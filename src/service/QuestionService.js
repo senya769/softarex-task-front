@@ -5,10 +5,10 @@ const QUESTION_BASE_REST_API = (id) => `http://localhost:9090/web-test/users/${i
 const authUserId = localStorage.getItem('id')
 
 class QuestionService {
-    getAllQuestionsByUserId(userId) {
-        return axios.get(QUESTION_BASE_REST_API(userId), authHeader())
+    getAllQuestionsByUserId(userId,page,size) {
+        return axios.get(QUESTION_BASE_REST_API(userId)+`?page=${page}&size=${size}`, authHeader())
     }
-    async createQuestion(email, question) {
+    createQuestion(email, question) {
         return axios.post(QUESTION_BASE_REST_API(authUserId) + `?email=${email}`, question, authHeader())
     }
     getQuetionById(questId) {

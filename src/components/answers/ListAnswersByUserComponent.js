@@ -1,5 +1,6 @@
 import { Stomp } from '@stomp/stompjs';
 import React, { useEffect, useState } from 'react';
+import { Pagination } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import '../../App.css';
@@ -13,11 +14,34 @@ const SOCKET_URL = 'http://localhost:9090/web-test/ws';
 const ListAnswersByUserComponent = () => {
     const [answers, setAnswers] = useState([])
     const { id } = useParams()
+    var [page, setPage] = useState(1)
+    var [size, setSize] = useState(3)
+    var [maxSize, setMaxSize] = useState(100)
     const history = useNavigate()
 
-    useEffect(() => {
-        AnswerService.getAllAnswersByUserId(id).then((response) => {
-            setAnswers(response.data)
+    function clickPagePrev() {
+        if (page > 1) {
+            loadAnswers(page - 1, size)
+            setPage(page - 1)
+        }
+    }
+    function clickPageNext() {
+        if (page++ < maxSize) {
+            loadAnswers(page, size)
+            setPage(page)
+        }
+    }
+
+   async function loadAnswers(pageR, sizeR) {
+        AnswerService.getAllAnswersByUserId(id, pageR, sizeR).then((response) => {
+            if (response.data.length) {
+                setAnswers(response.data)
+            } else {
+                setMaxSize(pageR)
+                if(pageR > 1){
+                setPage(pageR - 1)
+                }
+            }
             console.log(response.data)
         }).catch(error => {
             console.log(error)
@@ -25,15 +49,28 @@ const ListAnswersByUserComponent = () => {
                 history('/login')
             )
         })
+    }
+
+    function changeSizeElements(e) {
+        setSize(e.value)
+        setPage(1)
+        loadAnswers(1, e.value)
+    }
+
+    useEffect(() => {
+        loadAnswers(page, size)
         const sock = new SockJS(SOCKET_URL)
         const stomp = Stomp.over(sock)
         stomp.connect(authHeader(), function (frame) {
             console.log('connect ')
-            stomp.subscribe('/topic/answers', function (msg) {
+            stomp.subscribe(`/topic/answers/${id}`, function (msg) {
                 setAnswers(JSON.parse(msg.body))
+                if (JSON.parse(msg.body).length < 1) (
+                    clickPagePrev()
+                )
             })
         })
-    }, [id, history])
+    }, [id, history, page, size])
 
     return (
         <div className="container">
@@ -69,6 +106,27 @@ const ListAnswersByUserComponent = () => {
                         }
                     </tbody>
                 </table>
+            }
+            {(answers.length !== 0) &&
+                <div class="d-flex justify-content-end">
+                    <div class="col-6">
+                        <Pagination>
+                            <Pagination.Prev onClick={() => clickPagePrev()} />
+                            <Pagination.Item>{page}</Pagination.Item>
+                            <Pagination.Next onClick={() => clickPageNext()} />
+                        </Pagination>
+
+                    </div>
+                    <div class="col-1">
+                        <select className='form-control h-60 w-50 text-center'
+                            onChange={(e) => { changeSizeElements(e.target) }}>
+                            <option>3</option>
+                            <option>5</option>
+                            <option>8</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                </div>
             }
         </div>
 

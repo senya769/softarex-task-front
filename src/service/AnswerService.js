@@ -6,8 +6,8 @@ const id = localStorage.getItem('id')
 
 
 class AnswerService {
-    getAllAnswersByUserId(userId) {
-        return axios.get(ANSWER_BASE_REST_API(userId), authHeader())
+    getAllAnswersByUserId(userId,page,size) {
+        return axios.get(ANSWER_BASE_REST_API(userId)+`?page=${page}&size=${size}`, authHeader())
     }
     getAnswerById(questId) { }
     updateAnswers(answerId, answer) {

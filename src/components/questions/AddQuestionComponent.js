@@ -43,14 +43,16 @@ const AddQuestionComponent = () => {
             handleClose()
         })
             .catch(err => {
-                alert(JSON.stringify(err.response.data))
-                const questionErrorMessage = err.response.data.details.question
-                const emailErrorMessage = err.response.data.details.Value
+                const questionErrorMessage = err?.response?.data?.details?.question
+                const emailErrorMessage = err?.response?.data?.details?.Value
                 if (questionErrorMessage) {
                     setQuestionError(questionErrorMessage)
                 }
                 if (emailErrorMessage) {
                     setEmailError(emailErrorMessage.slice(19))
+                }
+                if(err.response.status == 500){
+                    window.location.reload()
                 }
             })
     }
